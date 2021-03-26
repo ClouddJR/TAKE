@@ -1,0 +1,6 @@
+com\mycompany\PrimeFaces\FormBean.class
+com\mycompany\PrimeFaces\resources\JavaEE8Resource.class
+com\mycompany\PrimeFaces\StudentsBean.class
+com\mycompany\PrimeFaces\ChartBean.class
+com\mycompany\PrimeFaces\Student.class
+com\mycompany\PrimeFaces\JAXRSConfiguration.class
