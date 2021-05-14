@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        <h1>Calculations</h1>
+        <form>
+            x = <input type="text" id="x" />
+            y = <input type="text" id="y" />
+            <input type="button" id="calc" value="Call API (jQuery)" />
+            <input type="button" id="calcJS" value="Call API (vanilla JS)" />
+        </form>
+        x + y = <span id="sum"></span><br />
+        x - y = <span id="difference"></span><br />
+        x * y = <span id="product"></span><br />
+        x / y = <span id="quotient"></span><br />
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#calc").click(function () {
+                var x = $("#x").val();
+                var y = $("#y").val();
+
+                $.ajax({
+                    url: "api/math",
+                    data: { "x": x, "y": y }
+                }).done(function (data) {
+                    $("#sum").html(data.sum)
+                    $("#difference").html(data.difference)
+                    $("#product").html(data.product)
+                    $("#quotient").html(data.quotient)
+                });
+            });
+        });
+
+        document.querySelector("#calcJS").addEventListener('click', () => {
+            const x = document.querySelector("#x").value
+            const y = document.querySelector("#y").value
+
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    document.querySelector("#sum").innerHTML = xmlHttp.response.sum;
+                    document.querySelector("#difference").innerHTML = xmlHttp.response.difference;
+                    document.querySelector("#product").innerHTML = xmlHttp.response.product;
+                    document.querySelector("#quotient").innerHTML = xmlHttp.response.quotient;
+                }
+            }
+            xmlHttp.open("GET", "api/math" + "?x=" + x + "&y=" + y, true);
+            xmlHttp.responseType = "json";
+            xmlHttp.send(null);
+        })
+    </script>
+</body>
+</html>
