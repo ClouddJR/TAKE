@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<div class="container d-flex flex-column align-items-center">
+    <div class="card p-2 m-4">
+
+        <div th:if="${message!=null and !message.empty}" class="alert alert-warning" role="alert"
+             th:utext="${message}"></div>
+
+        <div class="card mb-5">
+            <h5 class="card-header">Cart</h5>
+            <div class="card-body">
+                <p th:if="${cart.getMovies().empty}"
+                   class="card-text">No items in cart</p>
+                <div th:if="${!cart.getMovies().empty}">
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="m: ${cart.getMovies()}">
+                            <td th:text="${m.id}"></td>
+                            <td th:text="${m.title}"></td>
+                            <td>
+                                <form method="POST" th:action="@{/cart/{id}/delete(id=${m.id})}">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                                        Remove from cart
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h5 class="card-title">Price: <span th:text="${cart.getPrice()}"></span></h5>
+                </div>
+            </div>
+        </div>
+
+        <form class="m-2">
+            <div class="input-group">
+                <select class="form-select w-50" name="category">
+                    <option value="ALL">ALL</option>
+                    <option th:each="c: ${categories}" th:value="${c.getName()}" th:text="${c.getName()}"
+                            th:selected="${c.getName() == currentCategory}"></option>
+                </select>
+                <button class="ml-2 btn btn-primary" type="submit">
+                    Filter
+                </button>
+            </div>
+        </form>
+
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m: ${movies}">
+                <td th:text="${m.id}"></td>
+                <td>
+                    <a th:href="@{/movie/{id}(id=${m.id})}" th:text="${m.title}"></a>
+                </td>
+                <td th:text="${m.getCategory().getName()}"></td>
+                <td>
+                    <form method="POST" th:action="@{/cart/{id}(id=${m.id})}">
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            Add to cart
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<div class="container d-flex flex-column align-items-center">
+    <div class="card p-2 m-4">
+        <a href="/" class="m-2">Back to list</a>
+        <table class="table table-striped table-hover">
+            <tbody>
+            <tr>
+                <td>Id</td>
+                <td th:text="${movie.getId()}"></td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td th:text="${movie.getTitle()}"></td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td th:text="${movie.getCategory().getName()}"></td>
+            </tr>
+            <tr>
+                <td>Publish year</td>
+                <td th:text="${movie.getYear()}"></td>
+            </tr>
+            <tr>
+                <td>Cast</td>
+                <td th:text="${movie.getCast()}"></td>
+            </tr>
+            <tr>
+                <td>Director</td>
+                <td th:text="${movie.getDirector()}"></td>
+            </tr>
+            <tr>
+                <td>Story</td>
+                <td th:text="${movie.getStory()}"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td th:text="${movie.getPrice()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+</body>
+</html>
