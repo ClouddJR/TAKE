@@ -41,18 +41,20 @@ public class MovieController {
     }
 
     @PostMapping("/cart/{id}/delete")
-    public String removeFromCart(@PathVariable("id") long id) {
+    public String removeFromCart(@PathVariable("id") long id,
+                                 @RequestHeader(value = "referer", required = false) String referer) {
         movieRepository.findById(id).ifPresent(movie -> {
             if (cart.getMovies().stream().anyMatch(movieInCart -> movieInCart.getId().equals(movie.getId()))) {
                 cart.setMovies(cart.getMovies().stream().filter(movieInCart -> !movieInCart.getId().equals(movie.getId()))
                         .collect(Collectors.toSet()));
             }
         });
-        return "redirect:/";
+        return "redirect:" + (!referer.isEmpty() ? referer : "/");
     }
 
     @PostMapping("/cart/{id}")
-    public String addToCart(@PathVariable("id") long id, RedirectAttributes redirectAttrs) {
+    public String addToCart(@PathVariable("id") long id, RedirectAttributes redirectAttrs,
+                            @RequestHeader(value = "referer", required = false) String referer) {
         movieRepository.findById(id).ifPresent(movie -> {
             if (cart.getMovies().stream().noneMatch(movieInCart -> movieInCart.getId().equals(movie.getId()))) {
                 cart.getMovies().add(movie);
@@ -60,7 +62,7 @@ public class MovieController {
                 redirectAttrs.addFlashAttribute("message", "Item already in cart");
             }
         });
-        return "redirect:/";
+        return "redirect:" + (!referer.isEmpty() ? referer : "/");
     }
 
     @RequestMapping("/movie/{id}")
